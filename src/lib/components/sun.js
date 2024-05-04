@@ -1,3 +1,5 @@
+// Oriģinālais avots: "https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"
+
 // simple-sun-sky.js - An A-Frame sky primitive using a simple (and fast) gradient away from the sun.
 // Copyright © 2018-2023 P. Douglas Reeder under the MIT License
 
@@ -17,7 +19,7 @@ AFRAME.registerShader('simpleSunSky', {
         void main() {
             vnorm = normal;
             
-        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
         }`,
 
     fragmentShader: `

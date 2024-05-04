@@ -28,9 +28,13 @@ AFRAME.registerComponent('float-in-water', {
      * Metode, kas tiek izpildīta katru reizi, kad tiek ģenerēts jauns A-Frame ainas (a-scene) kadrs (frame)
      * 
      * @param {*} time - laiks, kas atbilst A-Frame ainas (a-scene) kopējam renderētajam laikam (ms)
-     * @param {*} timeDelta - laiks, kas pagājis, starp tagadējo un iepriekšējo kadru (ms)
+     * @param {*} timeDelta - laiks, kas pagājis starp tagadējo un iepriekšējo kadru (ms)
      */
     tick: function(time, timeDelta) {
+        if (this.el.is('dragging')) {
+            // Kamēr elements tiek vilkts pa ekrānu, tikmēr neizpildām animāciju:
+            return;
+        }
         const elapsedTime = time / 1000;  // Sekundes
         const x = this.el.object3D.position.x;
         const z = this.el.object3D.position.z;
@@ -38,7 +42,7 @@ AFRAME.registerComponent('float-in-water', {
 
         // Pie katra kadra renderēšanas atjauno komponentes vertikālo pozīciju, izmantojot sinusoīda viļņu funkciju - y(t) = A sin(ωt + φ) -, ar dažādām modifikācijām:
         // Šajā gadījumā: 
-        //      *) Viļņu garums A = 1, jo viļņu garums nav norādīts
+        //      *) Viļņu garums (amplitūda) A = 1, jo viļņu garums nav norādīts (konstanta amplitūda)
         //      *) Leņķiskā frekvence ω = (viļņu ātrums jeb data.waveSpeed no a-ocean komponentes)
         //      *) Laiks (s) t = (cik ilgi ir pagājis kopš A-Frame aina tika pilnībā renderēta)
         //      *) (x / 0.9) un (z / 0.05) - papildus parametri, kas pielāgoti šai ainai, ar nolūku pieslīpēt animāciju
@@ -47,12 +51,6 @@ AFRAME.registerComponent('float-in-water', {
             Math.sin((elapsedTime * this.data.waveSpeed + (x / 0.9)) + scaleY) +
             Math.cos((elapsedTime * this.data.waveSpeed + (z / 0.05)) + scaleY)
         );
-
-        // TODO:
-        //      1) Pievienot `drag-and-drop` komponenti
-        //      2) Pievienot iespēju kustēties pa ainu ar VR kontrolieriem
-        //      3) (Neobligāti) paeksperimentēt ar `gaze-oriented` events (kad kaut kas mainās tad, kad tu uz to paskaties)
-        //      4) (Neobligāti) pamainīt ainu VR skatā tā, lai bumba un vārti ir vēl tālāk no oriģinālā skatpunkta (kad ieiet VR režīmā caur VR browser)
 
         // const newY = this.data.originalY + Math.abs(
         //     Math.sin(((x / 0.9) + elapsedTime * this.data.waveSpeed * scaleY) * 0.5) +
