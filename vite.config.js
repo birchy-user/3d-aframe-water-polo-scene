@@ -1,10 +1,17 @@
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { defineConfig } from 'vite';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [svelte()],
-  // server: {
-  //   host: '0.0.0.0'  // Sniedz iespēju piekļūt lokālajam Dev serverim caur tīklu (0.0.0.0 nozīmē, ka tiks pieņemti pieprasījumi no visām adresēm, ieskaitot LAN un publiskās adreses)
-  // }
-})
+export default defineConfig(({ command, mode }) => {
+  const isDev = mode === 'development';
+  return {
+    plugins: [
+      ...(isDev ? [basicSsl()] : []),  // HTTPS ar "basicSsl" tikai "dev" serverī (uz lokālās ierīces), jo produkcijā jau ir HTTPS (Vercel)
+      svelte()
+    ],
+    // server: {
+    //   host: '0.0.0.0'  // Sniedz iespēju piekļūt lokālajam Dev serverim caur tīklu (0.0.0.0 nozīmē, ka tiks pieņemti pieprasījumi no visām adresēm, ieskaitot LAN un publiskās adreses)
+    // }
+  };
+});

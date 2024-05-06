@@ -5,7 +5,9 @@ AFRAME.registerComponent('float-in-water', {
      */
     schema: {
         waveSpeed: { type: 'number', default: 1 },
-        originalY: { type: 'number', default: 0 }
+        originalY: { type: 'number', default: 0 },
+        minAmplitude: { type: 'number', default: -1 },
+        maxAmplitude: { type: 'number', default: 1 }
     },
   
     /**
@@ -40,23 +42,20 @@ AFRAME.registerComponent('float-in-water', {
         const z = this.el.object3D.position.z;
         const scaleY = this.el.object3D.scale.y;
 
-        // Pie katra kadra renderēšanas atjauno komponentes vertikālo pozīciju, izmantojot sinusoīda viļņu funkciju - y(t) = A sin(ωt + φ) -, ar dažādām modifikācijām:
+        // Pie katra kadra renderēšanas atjauno komponentes vertikālo pozīciju, izmantojot sinusoīda viļņa funkciju - y(t) = A sin(ωt + φ) -, ar dažādām modifikācijām:
         // Šajā gadījumā: 
-        //      *) Viļņu garums (amplitūda) A = 1, jo viļņu garums nav norādīts (konstanta amplitūda)
+        //      *) Viļņu garums (amplitūda) A - vidējā starp maksimālo un minimālo amplitūdu
         //      *) Leņķiskā frekvence ω = (viļņu ātrums jeb data.waveSpeed no a-ocean komponentes)
         //      *) Laiks (s) t = (cik ilgi ir pagājis kopš A-Frame aina tika pilnībā renderēta)
-        //      *) (x / 0.9) un (z / 0.05) - papildus parametri, kas pielāgoti šai ainai, ar nolūku pieslīpēt animāciju
+        //      *) (x / 0.9) un (z / 0.05) - papildus parametri, kas pielāgoti šai ainai, ar nolūku pieslīpēt animāciju:
+        //          *) Mainot konstanti 0.9, 
+        //          *) Palielinot konstanti 0.05, strauji palielinās max / min vērtība, līdz kurai iet animācija ( jo)
         //      *) Viļņa fāze φ = scaleY (tā kā objektiem ir atšķirīgi izmēri, tad skatās tās atbilstošo maksimālo y koordinātu no objekta 0-tā punkta - šajā punktā var uzskatīt, ka svārstība ir apstājusies pie t = 0)
-        const newY = this.data.originalY + Math.abs(
-            Math.sin((elapsedTime * this.data.waveSpeed + (x / 0.9)) + scaleY) +
-            Math.cos((elapsedTime * this.data.waveSpeed + (z / 0.05)) + scaleY)
-        );
-
-        // const newY = this.data.originalY + Math.abs(
-        //     Math.sin(((x / 0.9) + elapsedTime * this.data.waveSpeed * scaleY) * 0.5) +
-        //     Math.cos(((z / 0.05) + elapsedTime * this.data.waveSpeed * scaleY) * 0.5)
-        // );
-
+        //
+        // Beigu rezultāts ir pie oriģinālās 0-tās koordinātas pieskaitīts sinusoīda viļņa funkcijas rezultāts
+        const A = (this.data.maxAmplitude - this.data.minAmplitude) / 2;
+        const newY = this.data.originalY + (A * Math.sin((this.data.waveSpeed * elapsedTime) + scaleY));
+    
         this.el.object3D.position.y = newY;
     }
   });
