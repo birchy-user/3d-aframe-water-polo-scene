@@ -144,15 +144,15 @@
   <a-entity light="type: ambient; color: #AAA"></a-entity>
   <a-entity light="type: directional; color: #DDD; intensity: 0.6" position="0.7 0.4 -1"></a-entity>
 
-  <!-- Ūdenspolo bumbas modeļa (OBJ) ielāde -->
+  <!-- Ūdenspolo vārtu modeļa (OBJ) ielāde -->
   <a-assets>
-    <a-asset-item id="water-polo-ball-obj" src="/assets/models/water_polo_goal_FINAL.obj"></a-asset-item>
-    <a-asset-item id="water-polo-ball-mtl" src="/assets/models/water_polo_goal_FINAL.mtl"></a-asset-item>
+    <a-asset-item id="water-polo-goal-obj" src="/assets/models/water_polo_goal_FINAL.obj"></a-asset-item>
+    <a-asset-item id="water-polo-goal-mtl" src="/assets/models/water_polo_goal_FINAL.mtl"></a-asset-item>
   </a-assets>
 
   <a-entity 
     id="goal"
-    obj-model="obj: #water-polo-ball-obj; mtl: #water-polo-ball-mtl"
+    obj-model="obj: #water-polo-goal-obj; mtl: #water-polo-goal-mtl"
     position="0 0 -15"
     scale="15 15 15"
     rotation="0 -90 0"
