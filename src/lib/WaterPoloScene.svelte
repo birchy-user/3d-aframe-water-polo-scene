@@ -162,9 +162,9 @@
   <a-entity
     bind:this={waterPoloBall}
     id="ball"
-    gltf-model="url(/assets/models/water_polo_ball_FINAL_v2.glb)" 
+    gltf-model="url(/assets/models/soccer_ball.glb)"
     position="0 -1 -5"
-    scale="1 1 1"
+    scale="3 3 3"
     float-in-water="minAmplitude: -1; maxAmplitude: 0.4"
     class="grabbable"
   ></a-entity>
