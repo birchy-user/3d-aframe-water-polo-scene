@@ -1,4 +1,4 @@
-# Three.js piemērs - 3D objektu, modeļu un ainu izveidošana, importēšana un animēšana, izmantojot Three.js
+# A-Frame piemērs - 3D objektu, modeļu un ainu izveidošana, importēšana un animēšana gan darbvirsmas, gan mobilo viedierīču, gan VR pārlūkprogrammām, izmantojot A-Frame.
 
 ## Galvenās atkarības
 - NPM (Node Package Manager) versija (pārbaudāma ar `npm -v`) >= 6.14.15
