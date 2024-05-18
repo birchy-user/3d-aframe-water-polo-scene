@@ -167,6 +167,7 @@
     scale="3 3 3"
     float-in-water="minAmplitude: -1; maxAmplitude: 0.4"
     class="grabbable"
+    click-drag
   ></a-entity>
 
   <!-- Piemērs okeānam no A-Frame dokumentācijas (oriģināli no: "aframe-extras/primitives/a-ocean", pakotnes avots: https://www.npmjs.com/package/aframe-extras) -->
